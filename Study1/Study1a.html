@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flanker Task</title>
+        <script src="js/jspsych.js"></script>
+        <script src="js/jspsych-html-keyboard-response.js"></script>
+        <script src="js/jspsych-fullscreen.js"></script>
+        <link rel="stylesheet" href="css/jspsych.css" type="text/css"></link>
+        <style>
+          body {background-color: #7e7e7e;} /* can change background to grey */
+          body {color: white;}
+        </style>
+    </head>
+    <body>
+    </body>
+    <script>
+        /* experiment parameters */
+        var reps_per_prac_type = 2; //2
+        var reps_per_trial_type = 15; //10
+        var no_of_blocks = 3; //3
+
+        /*set up welcome block*/
+        var pre_instructions = {
+          type: 'fullscreen',
+          fullscreen_mode: true,
+          message: "<p>You will now begin the perception part of this study. Please read the following instructions carefully.</p><p>Press the button below to continue with the study.</p>",
+          button_label: "Continue",
+          delay_after: 1000
+        };
+
+        /*set up instructions block*/
+        var instructions1 = {
+          type: 'html-keyboard-response',
+          stimulus: "<p>This task will consist of multiple trials.</p>"+
+            "In each trial you will see three images like the ones below.</p>"+
+            "<p><table><tr><td><img src='img/gaborStatic.gif'></img></td><td><img src='img/gaborStatic.gif'></img></td><td><img src='img/gaborStatic.gif'></img></td></tr></table></p>"+
+            "<p>Press <strong>any</strong> key to continue.</p>"
+        };
+
+        var instructions2 = {
+          type: "html-keyboard-response",
+          stimulus: "<p>If the image in the centre is scrolling towards the <strong>left</strong>, " +
+            "press the letter F on the keyboard, as fast as you can.</p>"+
+            "<p><img src='img/gaborLeft.gif'></img></p>"+
+            "<p>Press <strong>any</strong> key to continue.</p>"
+        };
+
+        var instructions3 = {
+          type: "html-keyboard-response",
+          stimulus: "<p>If the image in the centre is scrolling towards the <strong>right</strong>, press the letter J " +
+            "on the keyboard, as fast as you can.</p>" +
+            "<p><img src='img/gaborRight.gif'></img></p>"+
+            "<p>Press <strong>any</strong> key to continue.</p>"
+        };
+
+        var instructions4 = {
+          type: "html-keyboard-response",
+          stimulus: "<p>You will now be given a block of practice trials.</p>" +
+            "<p>Try to complete each trial as quickly as possible.</p>"+
+            "<p>Press <strong>any</strong> key to begin.</p>",
+        post_trial_gap: 1000
+        };
+
+        /*define stimuli*/
+        var gabors = ['img/gaborRight.gif','img/gaborLeft.gif','img/gaborStatic.gif'];
+        var test_stimuli = [
+          {
+            stimulus: "<table><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr><tr><td><img src='img/gaborLeft.gif'></img></td><td><img src='img/gaborLeft.gif'></img></td><td><img src='img/gaborLeft.gif'></img></td></tr><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr></table>",
+            data: {correct_response: 'f', stim_type: 'congruent', direction: 'left'}
+          },
+          {
+            stimulus: "<table><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr><tr><td><img src='img/gaborRight.gif'></img></td><td><img src='img/gaborRight.gif'></img></td><td><img src='img/gaborRight.gif'></img></td></tr><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr></table>",
+            data: {correct_response: 'j', stim_type: 'congruent', direction: 'right'}
+          },
+          {
+            stimulus: "<table><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr><tr><td><img src='img/gaborLeft.gif'></img></td><td><img src='img/gaborRight.gif'></img></td><td><img src='img/gaborLeft.gif'></img></td></tr><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr></table>",
+            data: {correct_response: 'j', stim_type: 'incongruent', direction: 'right'}
+          },
+          {
+            stimulus: "<table><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr><tr><td><img src='img/gaborRight.gif'></img></td><td><img src='img/gaborLeft.gif'></img></td><td><img src='img/gaborRight.gif'></img></td></tr><tr><td></td><td><img src='img/gaborStatic.gif'></img></td><td></td></tr></table>",
+            data: {correct_response: 'f', stim_type: 'incongruent', direction: 'left'}
+          }
+        ];
+
+        /* define practice timeline */
+
+        var practice = {
+          timeline: [{
+            type: 'html-keyboard-response',
+            choices: ['f', 'j'],
+            trial_duration: 2000, // changed from 1500
+            stimulus: jsPsych.timelineVariable('stimulus'),
+            data: jsPsych.timelineVariable('data'),
+            on_finish: function(data){
+              var correct = false;
+              if(data.direction == 'left' && data.key_press == 70 && data.rt > -1){
+                correct = true;
+              } else if(data.direction == 'right' && data.key_press == 74 && data.rt > -1){
+                correct = true;
+              }
+              data.correct = correct;
+              data.test_part = 'prac';
+            },
+            post_trial_gap: function() {
+                return Math.floor(Math.random() * 1500) + 500;
+            }
+    //        post_trial_gap: 500
+          }],
+          timeline_variables: test_stimuli,
+          sample: {type: 'fixed-repetitions', size: reps_per_prac_type}
+        };
+
+        /* define test timeline */
+        var test = {
+          timeline: [{
+            type: 'html-keyboard-response',
+            choices: ['f', 'j'],
+            trial_duration: 2000, // changed from 1500
+            stimulus: jsPsych.timelineVariable('stimulus'),
+            data: jsPsych.timelineVariable('data'),
+            on_finish: function(data){
+              var correct = false;
+              if(data.direction == 'left' &&  data.key_press == 70 && data.rt > -1){
+                correct = true;
+              } else if(data.direction == 'right' && data.key_press == 74 && data.rt > -1){
+                correct = true;
+              }
+              data.correct = correct;
+              data.test_part = 'test';
+            },
+              post_trial_gap: function() {
+                  return Math.floor(Math.random() * 1500) + 500;
+              }
+            //  post_trial_gap: 500 // comment out to make random gaps
+          }],
+          timeline_variables: test_stimuli,
+          sample: {type: 'fixed-repetitions', size: reps_per_trial_type}
+        };
+
+        /* define break message */
+        var rep_count = 0;
+        var rest_break = {
+          type: "html-keyboard-response",
+          stimulus: function(){
+            rep_count++;
+            return "<p>That's the end of block "+rep_count+", out of "+no_of_blocks+" blocks.</p><p>You may rest your eyes for a moment, then press <strong>any</strong> key to continue.</p>";
+          },
+          post_trial_gap: 1000
+        };
+
+        /* define post-practice message */
+
+        var post_prac = {
+          type: "html-keyboard-response",
+          stimulus: "<p>That's the end of the practice trials.</p>"+
+            "<p>You will now be given "+no_of_blocks+" more blocks of trials.</p>"+
+            "<p>Remember, if the image in the centre is scrolling towards the <strong>left</strong>, " +
+            "press the letter F on the keyboard.</p>"+
+            "<p>If the image in the centre is scrolling towards the <strong>right</strong>, press the letter J on the keyboard.</p>" +
+            "Try to respond as fast as possible.</p>" +
+            "<p>Press <strong>any</strong> key to begin.</p>",
+          post_trial_gap: 1000
+        };
+
+        /* define test blocks */
+        var blocks = {
+          timeline: [test, rest_break],
+          randomize_order: false,
+          repetitions: no_of_blocks
+        };
+
+        /*define debriefing block*/
+        var debrief = {
+          type: "html-keyboard-response",
+          stimulus: function() {
+            var total_trials = jsPsych.data.get().filter({test_part: 'test'}).count();
+            var accuracy = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true}).count() / total_trials * 100);
+            var reaction_time = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true}).select('rt').mean());
+            return "<p>That is the end of the perceptual trials.</p><p>You responded correctly on <strong>"+accuracy+"%</strong> of the trials.</p> " +
+            "<p>Your average response time was <strong>" + reaction_time + "ms</strong>.</p>"+
+            "<p>Press <strong>any</strong> key to finish.</p>";
+          },
+          on_finish: function(){
+            var total_con = jsPsych.data.get().filter({test_part: 'test', stim_type: 'congruent'}).count();
+            var total_incon = jsPsych.data.get().filter({test_part: 'test', stim_type: 'incongruent'}).count();
+            var accuracy_con = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true, stim_type: 'congruent'}).count() / total_con * 100);
+            var accuracy_incon = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true, stim_type: 'incongruent'}).count() / total_incon * 100);
+            var congruent_rt = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true, stim_type: 'congruent'}).select('rt').mean());
+            var incongruent_rt = Math.round(jsPsych.data.get().filter({test_part: 'test', correct: true, stim_type: 'incongruent'}).select('rt').mean());
+
+            var msg = JSON.stringify({conAcc: accuracy_con, inconAcc: accuracy_incon, conRT: congruent_rt, inconRT: incongruent_rt, filedata: jsPsych.data.get().csv()});
+            window.parent.postMessage(msg, "*");
+          }
+        };
+
+        /*set up experiment structure*/
+        var timeline = [];
+        timeline.push(pre_instructions);
+        timeline.push(instructions1);
+        timeline.push(instructions2);
+        timeline.push(instructions3);
+        timeline.push(instructions4);
+        timeline.push(practice);
+        timeline.push(post_prac);
+        timeline.push(blocks);
+        timeline.push(debrief);
+
+        /*start experiment*/
+        jsPsych.init({
+            timeline: timeline,
+            preload_images: gabors,
+            on_finish: function(){
+              document.write('<div align=/"center/" style=/"padding=/"100px/"><p>Press escape to exit fullscreen, scroll down and click the arrow button to continue.</p></div>');
+            }
+        });
+
+    </script>
+</html>

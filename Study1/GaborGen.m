@@ -39,20 +39,16 @@ function GaborGen(filename, speed, ang, frameRate)
 end
     
 
-%% Direction variation
+%% Direction variation (Study 1a)
 % filename, speed, ang, frameRate
 
 GaborGen('gaborLeft.gif',1,180,.02);
 GaborGen('gaborStatic.gif',1,180,1);
 GaborGen('gaborRight.gif',1,0,.02);
-%% Speed variation
 
-GaborGen('gaborRightSlow.gif',1.5,0,.02);
-GaborGen('gaborRightFast.gif',1.25,0,.02);
+%% Speed variation (Study 1b)
 GaborGen('gaborRightSlower.gif',2,0,.02);
 GaborGen('gaborRightFaster.gif',1,0,.02);
-GaborGen('gaborLeftSlow.gif',1.5,180,.02);
-GaborGen('gaborLeftFast.gif',1.25,180,.02);
 GaborGen('gaborLeftSlower.gif',2,180,.02);
 GaborGen('gaborLeftFaster.gif',1,180,.02);
 

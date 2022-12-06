@@ -74,7 +74,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\bamfo\\OneDrive\\Documents\\DPhil\\Study 2\\Study2-video-search\\Study2-search-sansmic-threeCon.py', # set to local path
+    originPath='C:\\Users\\bamfo\\OneDrive\\Documents\\DPhil\\Study 2\\Study2-video-search\\Study2.py', # set to local path
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info

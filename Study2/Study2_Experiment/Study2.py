@@ -51,7 +51,7 @@ import sys  # to get file system encoding
 from psychopy.hardware import keyboard
 
 # Set eye-track mode
-trackEyes = 1 # set to 0 to not track, required if eye-tracker not connected
+trackEyes = 0 # set to 0 to not track, required if eye-tracker not connected. Set to 1 to track.
 
 # Ensure that relative paths start from the same directory as this script
 _thisDir = os.path.dirname(os.path.abspath(__file__))          
@@ -74,7 +74,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='C:\\Users\\bamfo\\OneDrive\\Documents\\DPhil\\Study 2\\Study2-video-search\\Study2-search-sansmic-threeCon.py',
+    originPath='C:\\Users\\bamfo\\OneDrive\\Documents\\DPhil\\Study 2\\Study2-video-search\\Study2-search-sansmic-threeCon.py', # set to local path
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info

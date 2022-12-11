@@ -20,7 +20,7 @@ from scipy import stats
 directory = "C:/Users/bamfo/OneDrive/Documents/DPhil/Study 2/Analysis"
 os.chdir(directory)
 data = pd.read_csv('data_2022-04-18.csv')
-quest = pd.read_csv('QualtricsData_processed.csv')
+# quest = pd.read_csv('QualtricsData_processed.csv')
 
 data = data.rename(columns={'Beat Variance':'IOI Variance','Beat Mean':'IOI Mean (s)'})
 
@@ -97,6 +97,12 @@ desc = pd.concat(desc)
 pairs = [('Non-synchrony','Control'),('Synchrony','Non-synchrony'),('Control','Synchrony')]
 order = ['Non-synchrony','Control','Synchrony']
 
+
+sns.set_theme(style='whitegrid')
+dotSize = 3.5
+fig, axes = plt.subplots(3, 2, figsize=(14, 16))
+axisLoc = [[0,0],[1,0],[0,1],[1,1],[2,0],[2,1]]
+j=0
 for i in analyses:
     # if i != 'Performance':
     #     data2 = data.dropna(subset=['Fixations'])
@@ -104,16 +110,19 @@ for i in analyses:
     #     data2 = data
     # data2 = data1[(np.abs(stats.zscore(data1[[i]])) < 2.5).all(axis=1)].reset_index()
     # ax = sns.catplot(x='Condition', y=i, kind='violin', data=data1)
-    
-    ax = sns.violinplot(x='Condition', y=i, data=data1, cut=0, order=order)
+    a,b = axisLoc[j]
+    sns.violinplot(ax=axes[a,b], x='Condition', y=i, data=data1, cut=0, order=order, color='lightgrey')
+    sns.stripplot(ax=axes[a,b], x='Condition', y=i, data=data1, dodge=True, size=dotSize, jitter=.25, order=order)
+    j=j+1
     #annotator = Annotator(ax,pairs,data=data1,x='Condition',y=i, order=order, loc='outside')
     #annotator.configure(test='Mann-Whitney',comparisons_correction='bonferroni')
     #annotator.apply_and_annotate()
-    plt.show()  
+    #plt.show()  
     
     analyses[i] = pg.rm_anova(dv=i, within='Condition', subject='Participant', data=data, correction=True)
 analyses = pd.concat(analyses)
-    
+plt.show()  
+
 #%% Export analysis
 desc.to_csv('Study2_descriptives.csv')
 analyses.to_csv('Study2_analyses.csv')
@@ -140,3 +149,8 @@ for i in analyses:
     ax = sns.catplot(x='Condition', y=i, kind='violin', split=True, data=data2)
     analyses[i] = pg.friedman(dv=i, within='Condition', subject='Participant', data=data2)
 analyses = pd.concat(analyses)
+
+#%% Effect of perceptual ability??
+# copied from study 3 needs adjusting
+sns.lmplot(x='Perceptual Ability', y='Bonding', hue='Tempo Ratio',data=data1, scatter_kws={"s": 5})
+print(pg.corr(data1['Perceptual Ability'], data1['Difficulty']))

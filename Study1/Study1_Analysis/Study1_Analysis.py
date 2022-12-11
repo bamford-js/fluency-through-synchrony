@@ -135,8 +135,16 @@ durationSD = descriptives['Duration (s)'].astype(float).std()
 #%% Plot Accuracy and Reaction Time
 sns.set_theme(style='whitegrid')
 fig, axes = plt.subplots(1, 2, figsize=(11, 5))
-sns.stripplot(ax=axes[0], x='Stimulus', y='Reaction Time (ms)', data=summary, dodge=True, size=3, jitter=.25)
+sns.stripplot(ax=axes[0], x='Stimulus', y='Reaction Time (ms)', data=summary, dodge=True, size=3, jitter=.25) 
 sns.stripplot(ax=axes[1],x='Stimulus', y='Accuracy (%)', data=summary, dodge=True, size=3, jitter=.25)
+
+#%% Plot Accuracy and Reaction Time with swarms and violins
+sns.set_theme(style='whitegrid')
+fig, axes = plt.subplots(1, 2, figsize=(11, 5))
+sns.stripplot(ax=axes[0], x='Stimulus', y='Reaction Time (ms)', data=summary, size=3, jitter=.25) 
+sns.violinplot(ax=axes[0], x='Stimulus', y='Reaction Time (ms)', data=summary, color='lightgrey') 
+sns.stripplot(ax=axes[1], x='Stimulus', y='Accuracy (%)', data=summary, size=3, jitter=.25)
+sns.violinplot(ax=axes[1], x='Stimulus', y='Accuracy (%)', data=summary, color='lightgrey')
 
 #%% Stats
 target = 'Performance (%/ms)'
@@ -269,7 +277,7 @@ for i in range(len(summary)):
 
 
 
-#%% Create summary table (without blocks, without target speed) - for figure 5
+#%% Create summary table (without blocks, without target speed) - for figure 2.6
 summary = dfCor[['ID','Speed','Direction','Reaction Time (ms)']].groupby(['ID','Speed','Direction']).mean()
 summary[['correct']] = df[['ID','Speed','Direction','correct']].groupby(['ID','Speed','Direction']).sum()
 summary[['trialCount']] = df[['ID','Speed','Direction','trial_index']].groupby(['ID','Speed','Direction']).count()
@@ -302,11 +310,23 @@ dotSize = 3.5
 
 fig, axes = plt.subplots(3, 2, figsize=(14, 16))
 sns.stripplot(ax=axes[0,0], x='Direction', y='Reaction Time (ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[0,0], x='Direction', y='Reaction Time (ms)', data=summary, color='lightgrey')
+
 sns.stripplot(ax=axes[1,0], x='Direction', y='Accuracy (%)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[1,0], x='Direction', y='Accuracy (%)', data=summary, color='lightgrey')
+
 sns.stripplot(ax=axes[0,1], x='Speed', y='Reaction Time (ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[0,1], x='Speed', y='Reaction Time (ms)', data=summary, color='lightgrey')
+
 sns.stripplot(ax=axes[1,1], x='Speed', y='Accuracy (%)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[1,1], x='Speed', y='Accuracy (%)', data=summary, color='lightgrey')
+
 sns.stripplot(ax=axes[2,0], x='Direction', y='Performance (%/ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[2,0], x='Direction', y='Performance (%/ms)', data=summary, color='lightgrey')
+
 sns.stripplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
+sns.violinplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, color='lightgrey')
+
 
 #%% Plot Accuracy / RT correlation
 sns.scatterplot(data=summary, x='Accuracy (%)', y='Reaction Time (ms)')

@@ -37,16 +37,25 @@ data1 = pd.read_csv('data_filtered_2022-05-30.csv')
 def analysis(df):
     df = df.rename(columns={'Beat Mean':'IOI Mean (s)','Beat Variance':'IOI Variance','Pupil Size':'Pupil Size (mm)'})
     df['Tempo Ratio'] = df['Tempo Ratio'].replace({'120-120':'Synchrony','120-080':'Complementary','120-113':'Non-synchrony'})
-    analyses = {'Difficulty':0,'Pupil Size (mm)':0,'LHIPA':0,'IOI Variance':0,'IOI Mean (s)':0,'Bonding':0}
+    analyses = {'Difficulty':0,'Bonding':0,'Pupil Size (mm)':0,'LHIPA':0,'IOI Variance':0,'IOI Mean (s)':0}
     pairs = [('Synchrony','Complementary'),('Synchrony','Non-synchrony'),('Complementary','Non-synchrony')]
     order = ['Synchrony','Complementary','Non-synchrony']
+    sns.set_theme(style='whitegrid')
+    dotSize = 3.5
+    fig, axes = plt.subplots(3, 2, figsize=(14, 16))
+    axisLoc = [[0,0],[0,1],[1,0],[1,1],[2,0],[2,1]]
+    j=0
     for i in analyses:
-        ax = sns.violinplot(x='Tempo Ratio', y=i, data=df, cut=0, order=order)
+        a,b = axisLoc[j]
+        sns.violinplot(ax=axes[a,b], x='Tempo Ratio', y=i, data=df, cut=0, order=order, color='lightgrey')
+        sns.stripplot(ax=axes[a,b], x='Tempo Ratio', y=i, data=df, dodge=True, size=dotSize, jitter=.25, order=order)
+        j=j+1
         #annotator = Annotator(ax,pairs,data=df,x='Tempo Ratio',y=i, order=order)
         #annotator.configure(test='t-test_paired',comparisons_correction='bonferroni')
         #annotator.apply_and_annotate()
-        plt.show()        
+              
         analyses[i] = pg.rm_anova(dv=i, within='Tempo Ratio', subject='Participant', data=df, correction=True)
+    plt.show()  
     return pd.concat(analyses)
 
 #%% Identify outliers
@@ -128,6 +137,19 @@ print(pg.corr(data['Bonding'], data['Difficulty']))
 sns.scatterplot(data['Pupil Size'], data['Difficulty'])
 print(pg.corr(data['Pupil Size'], data['Difficulty']))
 
+#%% Correlation between Perceptual Ability and Difficulty by condition
+# could be interesting to investigate in the paper
+df = data1
+df = df.rename(columns={'Beat Mean':'IOI Mean (s)','Beat Variance':'IOI Variance','Pupil Size':'Pupil Size (mm)'})
+df['Tempo Ratio'] = df['Tempo Ratio'].replace({'120-120':'Synchrony','120-080':'Complementary','120-113':'Non-synchrony'})
+
+sns.lmplot(x='Perceptual Ability', y='Difficulty', hue='Tempo Ratio',data=df, scatter_kws={"s": 5})
+print(pg.corr(df['Perceptual Ability'], df['Difficulty']))
+
+#%% line of best fit
+sns.lmplot(x='Perceptual Ability', y='Bonding',data=data1, scatter_kws={"s": 5})
+print(pg.corr(data1['Perceptual Ability'], data1['Bonding']))
+
 #%% Cronbach's Alpha
 # for the bonding scale
 print(pg.cronbach_alpha(data1[['Liking','Connection','IOS']]))
@@ -140,7 +162,9 @@ ax = sns.lmplot(x='Pupil Size', y='Bonding', hue='Difficulty',data=data1, scatte
 
 #%% 
 df = data1
+sns.set_theme(style='whitegrid')
 df['Tempo Ratio'] = df['Tempo Ratio'].replace({'120-120':'Synchrony','120-080':'Complementary','120-113':'Non-synchrony'})
 df['Drums'] = df['Drums'].replace({'same':'Matched','diff':'Unmatched'})
-ax = sns.violinplot(x='Tempo Ratio', y='Bonding', hue='Drums',data=df)
+sns.violinplot(x='Tempo Ratio', y='Bonding', hue='Drums',data=df, color='lightgrey')
+sns.stripplot(x='Tempo Ratio', y='Bonding', hue='Drums',data=df)
 plt.legend(bbox_to_anchor=(1.02,1), loc='upper left', borderaxespad=0)

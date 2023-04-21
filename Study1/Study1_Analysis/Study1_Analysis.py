@@ -132,6 +132,9 @@ age_range = [ descriptives['Age'].astype(float).min(), descriptives['Age'].astyp
 durationMean = descriptives['Duration (s)'].astype(float).mean()
 durationSD = descriptives['Duration (s)'].astype(float).std()
 
+#%% Descriptive stats
+desc_stim = summary.groupby(['Stimulus']).describe()
+
 #%% Plot Accuracy and Reaction Time
 sns.set_theme(style='whitegrid')
 fig, axes = plt.subplots(1, 2, figsize=(11, 5))
@@ -250,9 +253,7 @@ dfCor = df[df.correct == True]
 dfCor = dfCor.rename(columns={'block':'Block','rt':'Reaction Time (ms)','speed_condition':'Speed','direction_condition':'Direction','target_speed':'Target Speed'})
 df = df.rename(columns={'block':'Block','rt':'Reaction Time (ms)','speed_condition':'Speed','direction_condition':'Direction','target_speed':'Target Speed'})
 
-
-
-#%% Create summary table (dividing participants by block)
+#%% Create summary table 
 summary = dfCor[['ID','Block','Speed','Direction','Target Speed','Reaction Time (ms)']].groupby(['ID','Block','Target Speed','Speed','Direction']).mean()
 summary[['correct']] = df[['ID','Block','Speed','Direction','Target Speed','correct']].groupby(['ID','Block','Target Speed','Speed','Direction']).sum()
 summary[['trialCount']] = df[['ID','Block','Speed','Direction','Target Speed','trial_index']].groupby(['ID','Block','Target Speed','Speed','Direction']).count()
@@ -263,21 +264,7 @@ for i in range(len(summary)):
     summary.loc[i,'Accuracy (%)'] = (summary.loc[i,'correct']/summary.loc[i,'trialCount'])*100
     summary.loc[i,'Performance (%/ms)'] = (summary.loc[i,'Accuracy (%)']/summary.loc[i,'Reaction Time (ms)'])*100
 
-
-#%% Create summary table (without blocks)
-summary = dfCor[['ID','Speed','Direction','Target Speed','Reaction Time (ms)']].groupby(['ID','Target Speed','Speed','Direction']).mean()
-summary[['correct']] = df[['ID','Speed','Direction','Target Speed','correct']].groupby(['ID','Target Speed','Speed','Direction']).sum()
-summary[['trialCount']] = df[['ID','Speed','Direction','Target Speed','trial_index']].groupby(['ID','Target Speed','Speed','Direction']).count()
-summary = summary.reset_index()
-summary[['Accuracy (%)']] = 0
-summary[['Performance (%/ms)']] = 0
-for i in range(len(summary)):
-    summary.loc[i,'Accuracy (%)'] = (summary.loc[i,'correct']/summary.loc[i,'trialCount'])*100
-    summary.loc[i,'Performance (%/ms)'] = (summary.loc[i,'Accuracy (%)']/summary.loc[i,'Reaction Time (ms)'])*100
-
-
-
-#%% Create summary table (without blocks, without target speed) - for figure 2.6
+#%% Create summary table (without blocks, without target speed) - for descriptive plot (removed from paper)
 summary = dfCor[['ID','Speed','Direction','Reaction Time (ms)']].groupby(['ID','Speed','Direction']).mean()
 summary[['correct']] = df[['ID','Speed','Direction','correct']].groupby(['ID','Speed','Direction']).sum()
 summary[['trialCount']] = df[['ID','Speed','Direction','trial_index']].groupby(['ID','Speed','Direction']).count()
@@ -287,22 +274,52 @@ summary[['Performance (%/ms)']] = 0
 for i in range(len(summary)):
     summary.loc[i,'Accuracy (%)'] = (summary.loc[i,'correct']/summary.loc[i,'trialCount'])*100
     summary.loc[i,'Performance (%/ms)'] = (summary.loc[i,'Accuracy (%)']/summary.loc[i,'Reaction Time (ms)'])*100
-    
-#%% Identify outliers
-# summary[['Z score']] = summary[(np.abs(stats.zscore(summary[['Performance (%/ms)']])) < 2.5).all(axis=1)]
 
-summary[['Z score']] = np.abs(stats.zscore(summary[['Performance (%/ms)']]))
-outliers = []
-for i in summary.index:
-    if summary.loc[i,'Z score'] > 2.5:
-        outliers.append(summary.loc[i,'ID'])
-        print(summary.loc[i,'ID'])
+#%% Participant stats
+descriptives = df[['ID','Gender','Country','Age','Duration (s)']].drop_duplicates(subset='ID').reset_index()
+genders = descriptives.groupby(['Gender']).count()
+countries = descriptives.groupby(['Country']).count()
+age = descriptives['Age'].astype(float).mean()
+#descriptives = descriptives.drop([58,74]) # extra long duration
+durationMean = descriptives['Duration (s)'].astype(float).mean()
+durationSD = descriptives['Duration (s)'].astype(float).std()
 
-for i in summary.index:
-    if summary.loc[i,'ID'] in outliers:
-        summary.loc[i,'Performance (%/ms)'] = None
+#%% Descriptive Stats
+desc_speed = summary[['Reaction Time (ms)','Accuracy (%)','Performance (%/ms)','Speed']].groupby(['Speed']).describe()
+desc_direction = summary[['Reaction Time (ms)','Accuracy (%)','Performance (%/ms)','Direction']].groupby(['Direction']).describe()
+desc_target = summary[['Reaction Time (ms)','Accuracy (%)','Performance (%/ms)','Target Speed']].groupby(['Target Speed']).describe()
 
-summary = summary.dropna(subset=['Performance (%/ms)'])
+#%% Stats
+target = 'Performance (%/ms)'
+dataset = summary
+
+# Plot
+ax = sns.pointplot(x='Speed', y=target, hue='Direction', data=dataset, capsize=.1)
+ax.set(ylim=(16.25,17.5))
+
+# ANOVA
+aov = pg.rm_anova(dv=target, within=['Speed','Direction'], subject='ID', data = dataset, effsize='np2')
+
+# Posthoc contrasts
+post_hoc = pg.pairwise_ttests(dv=target, within=['Direction','Speed'], subject='ID', data=dataset, padjust='bonf')
+
+# Levene's test for homogeneity of varience
+spdLevene = pg.homoscedasticity(summary, dv=target, group='Speed')
+dirLevene = pg.homoscedasticity(summary, dv=target, group='Direction')
+
+# Sphericity
+spher, _, chisq, dof, pval = pg.sphericity(dataset, dv=target, subject='ID', within=['Speed','Direction'])
+
+#%% effect of speed?
+target = 'Performance (%/ms)'
+dataset = summary
+
+sns.pointplot(x='Speed', y=target, hue='Target Speed', data=dataset, capsize=.1)
+aov = pg.rm_anova(dv=target, within=['Speed','Target Speed'], subject='ID', data = dataset)
+post_hoc = pg.pairwise_ttests(dv=target, within=['Target Speed','Speed'], subject='ID', data=dataset, padjust='bonf', effsize='np2')
+spdLevene = pg.homoscedasticity(summary, dv=target, group='Speed')
+tarLevene = pg.homoscedasticity(summary, dv=target, group='Target Speed')
+
 
 #%% Plot
 sns.set_theme(style='whitegrid')
@@ -327,66 +344,17 @@ sns.violinplot(ax=axes[2,0], x='Direction', y='Performance (%/ms)', data=summary
 sns.stripplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
 sns.violinplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, color='lightgrey')
 
-
 #%% Plot Accuracy / RT correlation
 sns.scatterplot(data=summary, x='Accuracy (%)', y='Reaction Time (ms)')
-
-#%% effect of speed?
-target = 'Performance (%/ms)'
-dataset = summary
-
-sns.pointplot(x='Speed', y=target, hue='Target Speed', data=dataset, capsize=.1)
-aov = pg.rm_anova(dv=target, within=['Speed','Target Speed'], subject='ID', data = dataset)
-post_hoc = pg.pairwise_ttests(dv=target, within=['Target Speed','Speed'], subject='ID', data=dataset, padjust='bonf')
-spdLevene = pg.homoscedasticity(summary, dv=target, group='Speed')
-tarLevene = pg.homoscedasticity(summary, dv=target, group='Target Speed')
-
-
-#%% Stats
-target = 'Performance (%/ms)'
-dataset = summary
-
-# Plot
-ax = sns.pointplot(x='Speed', y=target, hue='Direction', data=dataset, capsize=.1)
-ax.set(ylim=(17,18))
-
-# ANOVA
-aov = pg.rm_anova(dv=target, within=['Speed','Direction'], subject='ID', data = dataset)
-
-# Posthoc contrasts
-post_hoc = pg.pairwise_ttests(dv=target, within=['Direction','Speed'], subject='ID', data=dataset, padjust='bonf')
-
-# Levene's test for homogeneity of varience
-spdLevene = pg.homoscedasticity(summary, dv=target, group='Speed')
-dirLevene = pg.homoscedasticity(summary, dv=target, group='Direction')
-
-# Sphericity
-spher, _, chisq, dof, pval = pg.sphericity(dataset, dv=target, subject='ID', within=['Speed','Direction'])
-
-
-#%% Participant stats
-descriptives = df[['ID','Gender','Country','Age','Duration (s)']].drop_duplicates(subset='ID').reset_index()
-genders = descriptives.groupby(['Gender']).count()
-countries = descriptives.groupby(['Country']).count()
-age = descriptives['Age'].astype(float).mean()
-#descriptives = descriptives.drop([58,74]) # extra long duration
-durationMean = descriptives['Duration (s)'].astype(float).mean()
-durationSD = descriptives['Duration (s)'].astype(float).std()
 
 #%% Correlation
 x = summary['Reaction Time (ms)'].tolist()
 y = summary['Accuracy (%)'].tolist()
 corr = pg.corr(x,y, method='spearman')
 
-
-
 #%% Export
 df.to_csv('Bamford_Study1b_longData.csv')
 summary.to_csv('Bamford_Study1b_summarised.csv')
-
-
-
-
 
 #%% Identify outliers
 # remove blocks with a <50 accuracy
@@ -395,4 +363,24 @@ for i in summary.index:
     if summary.loc[i,'Accuracy (%)'] < 50:
         outliers.append(i)
         print(summary.loc[i,'ID'])
-#summary = summary.drop(outliers)
+        
+# remove outliers?
+summary = summary.drop(outliers)
+
+#%% Identify outliers
+# remove performance scores greater than 2.5 SDs
+# summary[['Z score']] = summary[(np.abs(stats.zscore(summary[['Performance (%/ms)']])) < 2.5).all(axis=1)]
+
+summary[['Z score']] = np.abs(stats.zscore(summary[['Performance (%/ms)']]))
+outliers = []
+for i in summary.index:
+    if summary.loc[i,'Z score'] > 2.5:
+        outliers.append(summary.loc[i,'ID'])
+        print(summary.loc[i,'ID'])
+
+for i in summary.index:
+    if summary.loc[i,'ID'] in outliers:
+        summary.loc[i,'Performance (%/ms)'] = None
+
+# remove outliers?
+summary = summary.dropna(subset=['Performance (%/ms)'])

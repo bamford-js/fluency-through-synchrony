@@ -320,6 +320,23 @@ post_hoc = pg.pairwise_ttests(dv=target, within=['Target Speed','Speed'], subjec
 spdLevene = pg.homoscedasticity(summary, dv=target, group='Speed')
 tarLevene = pg.homoscedasticity(summary, dv=target, group='Target Speed')
 
+#%% Combined plot 
+# added after review.
+target = 'Performance (%/ms)'
+dataset = summary
+sns.set_theme(style='whitegrid')
+sns.color_palette()
+g = sns.FacetGrid(summary, col='Direction')
+g.map_dataframe(sns.pointplot, x='Speed', hue='Target Speed', y=target, capsize=.1)
+g.add_legend()
+
+
+#%% Plot
+fig, axes = plt.subplots(1, 2, figsize=(14, 16))
+sns.pointplot(ax=axes[0], x='Speed', y=target, hue='Direction', data=dataset, capsize=.1)
+sns.pointplot(ax=axes[1], x='Speed', y=target, hue='Target Speed', data=dataset, capsize=.1)
+
+
 
 #%% Plot
 sns.set_theme(style='whitegrid')
@@ -343,6 +360,9 @@ sns.violinplot(ax=axes[2,0], x='Direction', y='Performance (%/ms)', data=summary
 
 sns.stripplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, dodge=True, size=dotSize, jitter=.25)
 sns.violinplot(ax=axes[2,1], x='Speed', y='Performance (%/ms)', data=summary, color='lightgrey')
+
+
+
 
 #%% Plot Accuracy / RT correlation
 sns.scatterplot(data=summary, x='Accuracy (%)', y='Reaction Time (ms)')

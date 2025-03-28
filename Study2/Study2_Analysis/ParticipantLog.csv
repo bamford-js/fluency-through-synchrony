@@ -1,106 +1,106 @@
-﻿Participant No.,Date,Noticed conditions?,hardest condition?,,,,,
-1,20/10/2020,yes,async,,,,,
-2,21/10/2020,yes,async,,,,,
-3,28/10/2020,yes,async,,,,,
-4,09/11/2020,yes,async,,,,,
-5,09/11/2020,yes,"async, sync, single",,,,,
-6,10/11/2020,yes,async,,,,,
-7,11/11/2020,yes,"async, single, sync",,,,,
-8,12/11/2020,yes,async,,,,,
-9,12/11/2020,yes,"async, sync, single",,,,,
-10,12/11/2020,no,"async=sync, single",,,,,
-11,12/11/2020,yes,"async, sync, single",,,,,
-12,16/11/2020,yes,"async, sync, single",,,,,
-13,18/11/2020,yes,"async, sync, single",,,,,
-14,19/11/2020,yes,"async, sync, single",,,,,
-15,19/11/2020,yes,"async, single, sync",,,,,
-16,19/11/2020,yes,"async, single=sync",,,,,
-17,22/11/2020,yes,"async, single, sync",,,,,
-18,22/11/2020,no,sync=async=single,,,,,
-20,25/11/2020,yes,"async, sync=single",,,,,
-21,26/11/2020,yes,"async, sync=single",,,,,
-22,01/12/2020,yes,"async, single, sync",,,,,
-23,03/12/2020,yes,"async, sync, single",,,,,
-24,10/12/2020,,,,,,,
-25,10/12/2020,no,sync=async=single,,,,,
-26,10/12/2020,yes,"async, sync=single",,,,,
-19,11/12/2020,,,,,,,
-27,14/12/2020,yes,"async, sync=single",,,,,11/12/2020 what?
-28,20/01/2021,yes,"async, sync, single",,,,,
-29,20/01/2021,yes,"async, sync, single",,,,,
-30,29/01/2021,yes,"async, sync, single",,,,,
-31,30/01/2021,yes,"async, single, sync",,,,,
-32,30/01/2021,yes,"async, single, sync",,,,,
-33,30/01/2021,yes,"async, single, sync",,,,,
-34,19/02/2021,yes,"async, single, sync",,,,,
-35,21/02/2021,yes,"async, single=sync",,,,,
-36,23/02/2021,yes,"async, single=sync",,,,,
-37,08/03/2021,yes,"async, single, sync",,,,,
-38,08/03/2021,yes,"async, single, sync",,,,,
-39,08/03/2021,yes,"async, single=sync",,,,,
-40,08/03/2021,yes,"async, single, sync",,,,,
-41,09/03/2021,yes,"async, single=sync",,,,,
-42,09/03/2021,no,"async, sync, single",,,,,
-43,09/03/2021,yes,"async, single=sync",,,,,
-44,11/03/2021,yes,"async=sync, single",,,,,
-45,11/03/2021,no,,,,,,
-46,11/03/2021,yes,"async, sync, single",,,,,
-47,11/03/2021,yes,"async, sync, single",,,,,
-48,11/03/2021,yes,"async, single, sync",,,,,
-49,11/03/2021,no,,,,,,
-50,11/03/2021,yes,"async, sync, single",,,,,
-51,11/03/2021,yes,"async, sync, single",,,,,
-52,11/03/2021,yes,"async, sync, single",,,,,
-53,15/03/2021,yes,"async, single, sync",,,,,
-54,15/03/2021,yes,"async, sync, single",,,,,
-55,15/03/2021,yes,"async, single, sync",,,,,
-56,15/03/2021,yes,"async, single, sync",,,,,
-57,15/03/2021,yes,"async, sync, single",,,,,
-58,15/03/2021,yes,"async, sync, single",,,,,
-59,15/03/2021,yes,"async, sync, single",,,,,
-60,16/03/2021,yes,"async, single=sync",,,,,
-61,16/03/2021,yes,"async, single=sync",,,,,
-62,16/03/2021,yes,"async, single, sync",,,,,
-63,16/03/2021,yes,"async, single=sync",,,,,
-64,16/03/2021,yes,"async, single, sync",,,,,
-65,19/03/2021,yes,"async, sync, single",,,,,
-66,19/03/2021,yes,"async, single=sync",,,,,
-67,19/03/2021,,,,,,,
-68,19/03/2021,yes,async=sync=single,,,,,
-69,22/03/2021,yes,"async, sync, single",,,,,
-70,22/03/2021,yes,"async, single, sync",,,,,
-71,22/03/2021,yes,"single, async=sync",,,,,
-72,22/03/2021,yes,"async, single=sync",,,,,
-73,22/03/2021,yes,"async, single=sync",,,,,
-74,22/03/2021,yes,"async, single, sync",,,,,
-75,22/03/2021,yes,"async, single, sync",,,,,
-76,22/03/2021,yes,"async, single=sync",,,,,
-77,22/03/2021,yes,"async, single=sync",,,,,
-78,23/03/2021,yes,"async, single=sync",,,,,
-79,23/03/2021,yes,"async, single=sync",,,,,
-80,23/03/2021,yes,"async,single=sync",,,,,
-81,23/03/2021,yes,"async, single=sync",,,,,
-82,23/03/2021,yes,"async, single, sync",,,,,
-83,23/03/2021,yes,"async, single=sync",,,,,
-84,30/03/2021,yes,"async, single=sync",,,,,
-85,30/03/2021,yes,"async, single=sync",,,,,
-86,30/03/2021,,"async=sync, single",,,,,
-87,30/03/2021,yes,"async, sync, single",,,,,
-88,30/03/2021,yes,"async, sync, single",,,,,
-89,30/03/2021,Maybe,,,,,,
-90,30/03/2021,yes,"async, single=sync",,,,,
-91,01/04/2021,yes,"async, single=sync",,,,,
-92,01/04/2021,yes,"async, single=sync",,,,,
-93,01/04/2021,yes,"async, single=sync",,,,,
-94,01/04/2021,yes,"async, sync, single",,,,,
-95,01/04/2021,,,,,,,
-96,01/04/2021,yes,"async, sync, single",,,,,
-97,01/04/2021,yes,"async=sync, single",,,,,
-98,01/04/2021,yes,"async, sync=single",,,,,
-99,09/04/2021,yes,"async, sync=single",,,,,
-100,09/04/2021,yes,"async, sync=single",,,,,
-101,09/04/2021,yes,"async, sync=single",,,,,
-102,09/04/2021,yes,"async, sync=single",,,,,
-103,09/04/2021,yes,"async, single, sync",,,,,
-104,09/04/2021,yes,"async, sync=single",,,,,
-105,09/04/2021,yes,async=sync=single,,,,,
+﻿Participant No.,Date,Noticed conditions?,hardest condition?
+1,20/10/2020,yes,async
+2,21/10/2020,yes,async
+3,28/10/2020,yes,async
+4,09/11/2020,yes,async
+5,09/11/2020,yes,"async, sync, single"
+6,10/11/2020,yes,async
+7,11/11/2020,yes,"async, single, sync"
+8,12/11/2020,yes,async
+9,12/11/2020,yes,"async, sync, single"
+10,12/11/2020,no,"async=sync, single"
+11,12/11/2020,yes,"async, sync, single"
+12,16/11/2020,yes,"async, sync, single"
+13,18/11/2020,yes,"async, sync, single"
+14,19/11/2020,yes,"async, sync, single"
+15,19/11/2020,yes,"async, single, sync"
+16,19/11/2020,yes,"async, single=sync"
+17,22/11/2020,yes,"async, single, sync"
+18,22/11/2020,no,sync=async=single
+20,25/11/2020,yes,"async, sync=single"
+21,26/11/2020,yes,"async, sync=single"
+22,01/12/2020,yes,"async, single, sync"
+23,03/12/2020,yes,"async, sync, single"
+24,10/12/2020,,
+25,10/12/2020,no,sync=async=single
+26,10/12/2020,yes,"async, sync=single"
+19,11/12/2020,,
+27,14/12/2020,yes,"async, sync=single"
+28,20/01/2021,yes,"async, sync, single"
+29,20/01/2021,yes,"async, sync, single"
+30,29/01/2021,yes,"async, sync, single"
+31,30/01/2021,yes,"async, single, sync"
+32,30/01/2021,yes,"async, single, sync"
+33,30/01/2021,yes,"async, single, sync"
+34,19/02/2021,yes,"async, single, sync"
+35,21/02/2021,yes,"async, single=sync"
+36,23/02/2021,yes,"async, single=sync"
+37,08/03/2021,yes,"async, single, sync"
+38,08/03/2021,yes,"async, single, sync"
+39,08/03/2021,yes,"async, single=sync"
+40,08/03/2021,yes,"async, single, sync"
+41,09/03/2021,yes,"async, single=sync"
+42,09/03/2021,no,"async, sync, single"
+43,09/03/2021,yes,"async, single=sync"
+44,11/03/2021,yes,"async=sync, single"
+45,11/03/2021,no,
+46,11/03/2021,yes,"async, sync, single"
+47,11/03/2021,yes,"async, sync, single"
+48,11/03/2021,yes,"async, single, sync"
+49,11/03/2021,no,
+50,11/03/2021,yes,"async, sync, single"
+51,11/03/2021,yes,"async, sync, single"
+52,11/03/2021,yes,"async, sync, single"
+53,15/03/2021,yes,"async, single, sync"
+54,15/03/2021,yes,"async, sync, single"
+55,15/03/2021,yes,"async, single, sync"
+56,15/03/2021,yes,"async, single, sync"
+57,15/03/2021,yes,"async, sync, single"
+58,15/03/2021,yes,"async, sync, single"
+59,15/03/2021,yes,"async, sync, single"
+60,16/03/2021,yes,"async, single=sync"
+61,16/03/2021,yes,"async, single=sync"
+62,16/03/2021,yes,"async, single, sync"
+63,16/03/2021,yes,"async, single=sync"
+64,16/03/2021,yes,"async, single, sync"
+65,19/03/2021,yes,"async, sync, single"
+66,19/03/2021,yes,"async, single=sync"
+67,19/03/2021,,
+68,19/03/2021,yes,async=sync=single
+69,22/03/2021,yes,"async, sync, single"
+70,22/03/2021,yes,"async, single, sync"
+71,22/03/2021,yes,"single, async=sync"
+72,22/03/2021,yes,"async, single=sync"
+73,22/03/2021,yes,"async, single=sync"
+74,22/03/2021,yes,"async, single, sync"
+75,22/03/2021,yes,"async, single, sync"
+76,22/03/2021,yes,"async, single=sync"
+77,22/03/2021,yes,"async, single=sync"
+78,23/03/2021,yes,"async, single=sync"
+79,23/03/2021,yes,"async, single=sync"
+80,23/03/2021,yes,"async,single=sync"
+81,23/03/2021,yes,"async, single=sync"
+82,23/03/2021,yes,"async, single, sync"
+83,23/03/2021,yes,"async, single=sync"
+84,30/03/2021,yes,"async, single=sync"
+85,30/03/2021,yes,"async, single=sync"
+86,30/03/2021,,"async=sync, single"
+87,30/03/2021,yes,"async, sync, single"
+88,30/03/2021,yes,"async, sync, single"
+89,30/03/2021,Maybe,
+90,30/03/2021,yes,"async, single=sync"
+91,01/04/2021,yes,"async, single=sync"
+92,01/04/2021,yes,"async, single=sync"
+93,01/04/2021,yes,"async, single=sync"
+94,01/04/2021,yes,"async, sync, single"
+95,01/04/2021,,
+96,01/04/2021,yes,"async, sync, single"
+97,01/04/2021,yes,"async=sync, single"
+98,01/04/2021,yes,"async, sync=single"
+99,09/04/2021,yes,"async, sync=single"
+100,09/04/2021,yes,"async, sync=single"
+101,09/04/2021,yes,"async, sync=single"
+102,09/04/2021,yes,"async, sync=single"
+103,09/04/2021,yes,"async, single, sync"
+104,09/04/2021,yes,"async, sync=single"
+105,09/04/2021,yes,async=sync=single
